@@ -1,0 +1,114 @@
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="css/ionic.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/geturi.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var id_m= decodeURI(getUrlVars()["id_m"]);
+        var merk = decodeURI(getUrlVars()["merk"]);
+        var jumlah = decodeURI(getUrlVars()["jumlah"]);
+        var harga = decodeURI(getUrlVars()["harga"]);
+      
+        
+        $("#id_m").val(id_m);
+        $("#merk").val(merk);
+        $("#jumlah").val(jumlah);
+        $("#harga").val(harga);
+       
+        
+        $("#update").click(function() {
+            var id_m = $("#id_m").val();
+            var merk = $("#merk").val();
+            var jumlah= $("#jumlah").val();
+            var harga = $("#harga").val();
+            
+            
+            var dataString = "id_m=" + id_m + "&merk=" + merk + "&jumlah=" + jumlah +"&harga=" + harga +  "&update=";
+            $.ajax({
+                type: "POST",
+                url: "https://arifhieda.000webhostapp.com/AppCordovaPkl/www/update.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function() {
+                    $("#update").val('Connecting...');
+                },
+                success: function(data) {
+                    if (data == "success") {
+                        alert("Updated");
+                        $("#update").val("Update");
+                    } else if (data == "error") {
+                        alert("error");
+                    }
+                }
+            });
+
+        });
+        $("#delete").click(function() {
+            var id_m = $("#id_m").val();
+            var dataString = "id_m=" + id_m + "&delete=";
+            $.ajax({
+                type: "GET",
+                url: "https://arifhieda.000webhostapp.com/AppCordovaPkl/www/delete.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function() {
+                    $("#delete").val('Connecting...');
+                },
+                success: function(data) {
+                    if (data == "success") {
+                        alert("Deleted");
+                        $("#delete").val("Delete");
+                    } else if (data == "error") {
+                        alert("error");
+                    }
+                }
+            });
+
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div class="bar bar-header bar-positive" style="margin-bottom:80px;">
+        <a href="index.html" class="button button-clear">Home</a>
+        <h1 class="title">Update Database</h1>
+        <a class="button button-clear" href="readjson.html">Read JSON</a>
+    </div>
+    <br/>
+    <br/>
+    <div class="list">
+       
+        <div class="item">
+            <label>id_m</label>
+            <input type="text" id="id_m" value="" />
+        </div>
+        <div class="item">
+            <label>merk</label>
+            <input type="text" id="merk" value="" />
+        </div>
+
+        <div class="item">
+            <label>jumlah</label>
+            <input type="text" id="jumlah" value="" />
+        </div>
+
+        <div class="item">
+            <label>harga</label>
+            <input type="text" id="harga" value="" />
+        </div>
+        
+       
+       
+        <div class="item">
+            <input type="button" id="update" class="button button-block" value="Update" />
+            <input type="button" id="delete" class="button button-block" value="Delete" />
+        </div>
+    </div>
+</body>
+
+</html>
